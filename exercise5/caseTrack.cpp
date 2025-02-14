@@ -1,13 +1,3 @@
-/*
-** Yes, yes we know this is long but, you have
-** seen most of this code before in worksheet 2.
-** There are also some auxiliary functions here,
-** which we could have put into a separate file.
-** We'll see how to do this next week. ;)
-** In the meantime, you can skip to the next long
-** banner / comment.
-*/
-
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -22,7 +12,6 @@
 #include <vector>
 
 const auto num_countries = 195;
-// !!!this is different than before!!!
 const std::vector<std::string> countries = {"Afghanistan", "Albania", "Algeria", "Andorra", "Angola",
     "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain",
     "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina",
@@ -121,23 +110,7 @@ std::ostream& operator<<(std::ostream& os, std::vector<double> vec) {
   os << '\n';
   return os;
 }
-/********************************************
-** Welcome back!
-*********************************************
-**
-*/
 
-// Here's a struct: just a container / wrapper
-// for data that should logically go together.
-// This is like a class but we (usually) do not
-// define methods / functions on it: we just
-// use it to group together things.
-//
-// A struct names a type and you can create objects
-// of this type like so: DataFrame data_frame;
-// To access the members, use the 'dot' notation:
-// data_frame.cases;
-// data_frame.population; // and so on
 struct DataFrame {
   std::vector<std::string> regions;
   std::vector<unsigned> population;
@@ -147,9 +120,6 @@ struct DataFrame {
   std::vector<std::vector<unsigned>> cases;
 };
 
-/*
-** You do not "need" to read this function right now.
-*/
 std::unique_ptr<DataFrame> read_from_csv(std::string filename = "ecdc_cases_june.csv") {
   /*
   ** Read from a csv and populate a DataFrame.
@@ -182,7 +152,6 @@ std::unique_ptr<DataFrame> read_from_csv(std::string filename = "ecdc_cases_june
     // stringstream breaks on spaces
     line_stream >> day_of_month >> cases >> region >> population;
 
-    // new region in csv
     if (curr_region != region) {
       // -> operator: dereference pointer + access member / field
       // e.g. imagine: DataFrame* data;
@@ -208,39 +177,22 @@ std::map<std::string, std::vector<double>> normalize_per_capita(std::unique_ptr<
   ** Returns a std::map<std::string, std::vector<double>>
   */
 
-  // TODO: YOUR SOLUTION HERE
-
-  /*
-  ** 1. Extract references to regions, cases, and population
-  **    from data_frame.
-  ** 2. Declare a map<std::string, std::vector<double>>
-  **    called cases_normalized. The std::string refers to the
-  **    name of the region, while the associated vector contains
-  **    normalized cases (per 100,000 people) in the region.
-  ** 3. Populate the cases_normalized map by computing the cases
-  **    per 100'000 people in the respective country. You'll need
-  **    nexted loops( for(regions) { for(cases) } ).
-  **    Hint: cases_normalized[name_of_region] gives you access
-  **    to the associated vector.
-  ** 4. Change the returned object to cases_normalized i.e.
-  **    the map you just populated.
-  */
-
-  auto& regions = data_frame->regions;
   auto& cases = data_frame->cases;
+  auto& regions = data_frame->regions;
   auto& population = data_frame->population;
 
-  assert (population.size() == regions.size());
+  // map: name of region to a vector containing cases
+  std::map<std::string, std::vector<double>> cases_normalized;
 
-  std::map<std::string, std::vector<double>> cases_normalized{};
+  for (size_t region_num = 0; region_num < regions.size(); ++region_num) {
+    auto reg_name = regions[region_num];
+    auto reg_pop = population[region_num];
 
-  for (int region_num = 0; region_num < regions.size(); ++region_num) {
-    auto region_name = regions.at(region_num);
-    auto region_population = population.at(region_num);
-
-    for (const auto& daily_cases: cases.at(region_num)) {
-      double normalization = (daily_cases * 100000.0) / region_population;
-      cases_normalized[region_name].push_back(normalization);
+    // for each region, go over its cases
+    for (size_t day_num = 0; day_num < cases[region_num].size(); ++day_num) {
+      auto daily_normalized = (100'000.0 * cases[region_num][day_num]) / reg_pop;
+      // populate map
+      cases_normalized[reg_name].push_back(daily_normalized);
     }
   }
   return cases_normalized;
@@ -270,46 +222,28 @@ int main() {
       dummy_population.push_back(1);
     }
 
-    // TODO: Make a unique_ptr and assign it to the
-    // data_frame declared above.
-    // Make sure that cases = dummy_cases
-    // and population = dummy_population
-    // and regions = countries.
-    // Hint: You need to dereference the pointer first.
     data_frame = std::make_unique<DataFrame>();
-    data_frame->regions = countries;
-    data_frame->cases = dummy_cases;
+    // equivalent sytax for accessing member of a struct
+    // through a pointer:
+    (*data_frame).cases = dummy_cases;
     data_frame->population = dummy_population;
-
+    data_frame->regions = countries;
   } else if (choice == 'r') {
-    // TODO: get a unique_ptr from read_from_csv()
-    // and assign it to the data_frame variable.
-    // This unique pointer provides you real data.
     data_frame = read_from_csv();
-
   } else {
     std::cout << "It's fine if you cannot make up your mind. Maybe another time then...\n";
     std::exit(EXIT_FAILURE);
   }
 
-  // TODO: Use a for loop to print "cases" for each country using the
-  // data_frame pointer you just initialized. Hint: You can use the existing
-  // operator<< overload (implemented above) for printing vectors.
-
-  for (int i = 0; i < countries.size(); ++i) {
-    std::cout << data_frame->regions.at(i) << " (" << data_frame->population.at(i) << "):\n";
-    std::cout << data_frame->cases.at(i);
+  auto max_regions = data_frame->regions.size();
+  for (size_t region_num = 0; region_num < max_regions; ++region_num) {
+    std::cout << data_frame->regions[region_num] << ": " << data_frame->cases[region_num] << std::endl;
   }
-
-  // TODO: After implementing normalize_per_capita()
-  // 1. Call normalize_per_capita
-  // 2. Print out the new normalized case numbers.
-  // Hint: You can use the example in the worksheet to
-  // iterate over the map.
 
   auto norm_map = normalize_per_capita(data_frame);
 
-  for (const auto& [region, cases_norm]: norm_map) {
-    std::cout << region << ": " << cases_norm;
+  std::cout << "Cases per 100'000 people:" << std::endl;
+  for (const auto& [country, cases_normalized] : norm_map) {
+    std::cout << country << " " << cases_normalized;
   }
 }
