@@ -1,0 +1,19 @@
+Start testing: Feb 15 10:23 CET
+----------------------------------------------------------
+1/1 Testing: mytest
+1/1 Test: mytest
+Command: "/Users/hannesill/Google Drive/My Drive/1) Projects/WiSe24:25/AP/exercises/exercise5/src_matvec/testmatvec"
+Directory: /Users/hannesill/Google Drive/My Drive/1) Projects/WiSe24:25/AP/exercises/exercise5/src_matvec
+"mytest" start time: Feb 15 10:23 CET
+Output:
+----------------------------------------------------------
+Tests passed!
+<end of output>
+Test time =   0.31 sec
+----------------------------------------------------------
+Test Passed.
+"mytest" end time: Feb 15 10:23 CET
+"mytest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Feb 15 10:23 CET

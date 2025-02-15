@@ -12,11 +12,11 @@ add_executable (matvec matvec.cpp)
 # matvec needs to be linked to Eigen (which exports a CMake target called Eigen3::Eigen)
 target_link_libraries (matvec Eigen3::Eigen)
 
-# # We also want to build a separate executable with our tests, testmatvec.
-# # We have moved the test code into testmatvec.cpp
-# add_executable (testmatvec testmatvec.cpp)
-# # Add a test case, which simply runs testmatvec.
-# # We could have more test cases with different configurations.
-# add_test(NAME mytest
-#          COMMAND testmatvec)
-# target_link_libraries (testmatvec Eigen3::Eigen)
+# We also want to build a separate executable with our tests, testmatvec.
+# We have moved the test code into testmatvec.cpp
+add_executable (testmatvec testmatvec.cpp)
+# Add a test case, which simply runs testmatvec.
+# We could have more test cases with different configurations.
+add_test(NAME mytest
+         COMMAND testmatvec)
+target_link_libraries (testmatvec Eigen3::Eigen)
