@@ -3,12 +3,17 @@
 #include <vector>
 
 // TODO 1: Implement the Sortable concept.
+template<typename T>
+concept Sortable = requires(T m, T n) { m < n; };
+
+template<typename T>
+concept Cute = requires(T x) { x.cuteness(); };
 
 // TODO 4: Provide an additional constraint such that animal_sort
 // only works for Sortable and Cute animals. You will need to define
 // the concept Cute.
 template <typename T>
-  requires Sortable<T>
+  requires Sortable<T> && Cute<T>
 void animal_sort(std::vector<T>& arr) {
   std::sort(arr.begin(), arr.end());
   std::cout << "{ ";
@@ -39,6 +44,9 @@ public:
   }
 
   // TODO 3: Make Penguin Sortable. You will need to define a criterion for ordering Penguins.
+  bool operator<(const Penguin& other) const {
+    return this->_cuteness < other._cuteness;
+  }
 };
 
 int main() {
@@ -48,4 +56,5 @@ int main() {
   penguins.push_back(Penguin(9, 15, 3));
 
   // TODO 2: Call animal_sort on the penguins vector.
+  animal_sort(penguins);
 }

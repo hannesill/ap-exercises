@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main() {
-  Vec myvec;
+  Vec<double> myvec;
 
   myvec.push(2.0);
   myvec.push(3.0);
@@ -25,7 +25,7 @@ int main() {
   }
 
   // Test TODO 3
-  /**
+  
   int count = 0;
   for (const auto &elem : myvec)
   {
@@ -34,11 +34,9 @@ int main() {
   }
   if(count != 3)
   {
-      std::cerr << "Failed Test 3: \t Printed more than size() elements. Something could be wrong with the end()
-  method\n";
+      std::cerr << "Failed Test 3: \t Printed more than size() elements. Something could be wrong with the end() method\n";
   }
   else{
       std::cout << "Test 3 OK\n";
   }
-  */
 }

@@ -1,0 +1,3 @@
+/Users/hannesill/My Drive/1) Projects/WiSe24:25/AP/exercises/exercise8/sortable/CMakeFiles/sortable.dir
+/Users/hannesill/My Drive/1) Projects/WiSe24:25/AP/exercises/exercise8/sortable/CMakeFiles/edit_cache.dir
+/Users/hannesill/My Drive/1) Projects/WiSe24:25/AP/exercises/exercise8/sortable/CMakeFiles/rebuild_cache.dir
