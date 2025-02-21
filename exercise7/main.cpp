@@ -6,7 +6,7 @@
 #include "StudentCard.h"
 
 void describe_course(std::shared_ptr<const Course> course) {
-  // TODO: Implement (call the describe() of the course)
+  course->describe();
 }
 
 int main() {

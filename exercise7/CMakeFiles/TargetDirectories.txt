@@ -1,0 +1,3 @@
+/Users/hannesill/My Drive/1) Projects/WiSe24:25/AP/exercises/exercise7/CMakeFiles/onlinemut.dir
+/Users/hannesill/My Drive/1) Projects/WiSe24:25/AP/exercises/exercise7/CMakeFiles/edit_cache.dir
+/Users/hannesill/My Drive/1) Projects/WiSe24:25/AP/exercises/exercise7/CMakeFiles/rebuild_cache.dir

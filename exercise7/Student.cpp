@@ -12,6 +12,7 @@ Student::Student(std::string name, std::string id, const std::unique_ptr<Curricu
 void Student::register_for(std::string id) {
   try {
     // Try requesting the course from the curriculum and add it to the list
+    _courses.push_back(_study_program->request(id));
   } catch (std::runtime_error& e) {
     std::cout << "It looks like the program coordinators did not like your request:" << std::endl;
     std::cout << e.what() << std::endl;
@@ -22,7 +23,11 @@ void Student::list_courses() const {
   std::cout << _name << " is taking these courses this semester: ";
   for (const auto& course : _courses) {
     // TODO: course will now be a pointer, so you also need to dereference it (using ->)
-    std::cout << course.id() << " ";
+    if (auto sp = course.lock()) {  // sp ist ein std::shared_ptr<const Course>
+      std::cout << sp->id() << " ";
+    } else {
+        std::cout << "Course expired!" << std::endl;
+    }
   }
   std::cout << std::endl;
 }
